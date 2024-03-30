@@ -1,5 +1,5 @@
-#ifndef NUMPY_CORE_INCLUDE_NUMPY_NPY_COMMON_H_
-#define NUMPY_CORE_INCLUDE_NUMPY_NPY_COMMON_H_
+#ifndef _NPY_COMMON_H_
+#define _NPY_COMMON_H_
 
 /* need Python.h for npy_intp, npy_uintp */
 #include <Python.h>
@@ -14,11 +14,9 @@
  * using static inline modifiers when defining npy_math functions
  * allows the compiler to make optimizations when possible
  */
-#ifndef NPY_INLINE_MATH
 #if defined(NPY_INTERNAL_BUILD) && NPY_INTERNAL_BUILD
-    #define NPY_INLINE_MATH 1
-#else
-    #define NPY_INLINE_MATH 0
+#ifndef NPY_INLINE_MATH
+#define NPY_INLINE_MATH 1
 #endif
 #endif
 
@@ -131,10 +129,9 @@
 #endif
 #endif
 
-#if defined(_MSC_VER) && !defined(__clang__)
-    #define NPY_INLINE __inline
-/* clang included here to handle clang-cl on Windows */
-#elif defined(__GNUC__) || defined(__clang__)
+#if defined(_MSC_VER)
+        #define NPY_INLINE __inline
+#elif defined(__GNUC__)
     #if defined(__STRICT_ANSI__)
          #define NPY_INLINE __inline__
     #else
@@ -180,6 +177,12 @@
 #if defined(_MSC_VER) && defined(_WIN64) && (_MSC_VER > 1400) || \
     defined(__MINGW32__) || defined(__MINGW64__)
     #include <io.h>
+
+/* mingw based on 3.4.5 has lseek but not ftell/fseek */
+#if defined(__MINGW32__) || defined(__MINGW64__)
+extern int __cdecl _fseeki64(FILE *, long long, int);
+extern long long __cdecl _ftelli64(FILE *);
+#endif
 
     #define npy_fseek _fseeki64
     #define npy_ftell _ftelli64
@@ -351,31 +354,14 @@ typedef unsigned long npy_ulonglong;
 typedef unsigned char npy_bool;
 #define NPY_FALSE 0
 #define NPY_TRUE 1
-/*
- * `NPY_SIZEOF_LONGDOUBLE` isn't usually equal to sizeof(long double).
- * In some certain cases, it may forced to be equal to sizeof(double)
- * even against the compiler implementation and the same goes for
- * `complex long double`.
- *
- * Therefore, avoid `long double`, use `npy_longdouble` instead,
- * and when it comes to standard math functions make sure of using
- * the double version when `NPY_SIZEOF_LONGDOUBLE` == `NPY_SIZEOF_DOUBLE`.
- * For example:
- *   npy_longdouble *ptr, x;
- *   #if NPY_SIZEOF_LONGDOUBLE == NPY_SIZEOF_DOUBLE
- *       npy_longdouble r = modf(x, ptr);
- *   #else
- *       npy_longdouble r = modfl(x, ptr);
- *   #endif
- *
- * See https://github.com/numpy/numpy/issues/20348
- */
+
+
 #if NPY_SIZEOF_LONGDOUBLE == NPY_SIZEOF_DOUBLE
-    #define NPY_LONGDOUBLE_FMT "g"
-    typedef double npy_longdouble;
+        typedef double npy_longdouble;
+        #define NPY_LONGDOUBLE_FMT "g"
 #else
-    #define NPY_LONGDOUBLE_FMT "Lg"
-    typedef long double npy_longdouble;
+        typedef long double npy_longdouble;
+        #define NPY_LONGDOUBLE_FMT "Lg"
 #endif
 
 #ifndef Py_USING_UNICODE
@@ -1119,4 +1105,4 @@ typedef npy_int64 npy_datetime;
 
 /* End of typedefs for numarray style bit-width names */
 
-#endif  /* NUMPY_CORE_INCLUDE_NUMPY_NPY_COMMON_H_ */
+#endif

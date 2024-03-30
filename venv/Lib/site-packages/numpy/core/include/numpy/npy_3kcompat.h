@@ -1,16 +1,14 @@
 /*
  * This is a convenience header file providing compatibility utilities
- * for supporting different minor versions of Python 3.
- * It was originally used to support the transition from Python 2,
- * hence the "3k" naming.
+ * for supporting Python 2 and Python 3 in the same code base.
  *
  * If you want to use this for your own projects, it's recommended to make a
  * copy of it. Although the stuff below is unlikely to change, we don't provide
  * strong backwards compatibility guarantees at the moment.
  */
 
-#ifndef NUMPY_CORE_INCLUDE_NUMPY_NPY_3KCOMPAT_H_
-#define NUMPY_CORE_INCLUDE_NUMPY_NPY_3KCOMPAT_H_
+#ifndef _NPY_3KCOMPAT_H_
+#define _NPY_3KCOMPAT_H_
 
 #include <Python.h>
 #include <stdio.h>
@@ -218,7 +216,6 @@ static NPY_INLINE FILE*
 npy_PyFile_Dup2(PyObject *file, char *mode, npy_off_t *orig_pos)
 {
     int fd, fd2, unbuf;
-    Py_ssize_t fd2_tmp;
     PyObject *ret, *os, *io, *io_raw;
     npy_off_t pos;
     FILE *handle;
@@ -254,17 +251,8 @@ npy_PyFile_Dup2(PyObject *file, char *mode, npy_off_t *orig_pos)
     if (ret == NULL) {
         return NULL;
     }
-    fd2_tmp = PyNumber_AsSsize_t(ret, PyExc_IOError);
+    fd2 = PyNumber_AsSsize_t(ret, NULL);
     Py_DECREF(ret);
-    if (fd2_tmp == -1 && PyErr_Occurred()) {
-        return NULL;
-    }
-    if (fd2_tmp < INT_MIN || fd2_tmp > INT_MAX) {
-        PyErr_SetString(PyExc_IOError,
-                        "Getting an 'int' from os.dup() failed");
-        return NULL;
-    }
-    fd2 = (int)fd2_tmp;
 
     /* Convert to FILE* handle */
 #ifdef _WIN32
@@ -594,4 +582,4 @@ NpyCapsule_Check(PyObject *ptr)
 #endif
 
 
-#endif  /* NUMPY_CORE_INCLUDE_NUMPY_NPY_3KCOMPAT_H_ */
+#endif /* _NPY_3KCOMPAT_H_ */

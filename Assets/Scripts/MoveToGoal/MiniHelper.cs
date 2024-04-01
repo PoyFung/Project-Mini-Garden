@@ -5,9 +5,18 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
-public class MoveToGoalAgent : Agent
+public class MiniHelper : Agent
 {
-    [SerializeField] private Transform targetTransform;
+    [SerializeField] private Transform seedBox;
+    [SerializeField] private Transform targetPot;
+    [SerializeField] private Transform waterBox;
+    [SerializeField] private Transform goalBox;
+
+    private Transform currentPot;
+    private bool isPlanting = false;
+    private bool isWatering = false;
+    private float timeSincePlanted = 0f;
+    private float growTime = 10f;
 
     public override void OnEpisodeBegin()
     {
@@ -18,12 +27,16 @@ public class MoveToGoalAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
-        sensor.AddObservation(targetTransform.localPosition);
+        sensor.AddObservation(targetPot.localPosition);
     }
 
     //Provide controls to the Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (!isPlanting && !isWatering)
+        {
+
+        }
         float moveX = actions.ContinuousActions[0];
         float moveZ = actions.ContinuousActions[1];
 

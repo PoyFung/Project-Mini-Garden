@@ -84,11 +84,15 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 1000
+  MaxStep: 10000
   seedPrefab: {fileID: 0}
+  waterPrefab: {fileID: 0}
+  potList: {fileID: 0}
   seedBox: {fileID: 0}
+  waterBox: {fileID: 0}
   targetPot: {fileID: 0}
   hasSeed: 0
+  hasWater: 0
 --- !u!114 &3188904492408944848
 MonoBehaviour:
   m_ObjectHideFlags: 0

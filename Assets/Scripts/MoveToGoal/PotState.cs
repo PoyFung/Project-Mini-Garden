@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class PotState : MonoBehaviour
 {
-    public bool isPlanted=false;
+    public bool isPlanted = false;
+    public bool isWatered = false;
 }

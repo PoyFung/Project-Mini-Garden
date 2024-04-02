@@ -11,9 +11,13 @@ using System.Diagnostics.Tracing;
 public class MiniHelper : Agent
 {
     public GameObject seedPrefab;
+    public GameObject waterPrefab;
+
     private Rigidbody rb;
+    public PotList potList;
 
     [SerializeField] private Transform seedBox;
+    [SerializeField] private Transform waterBox;
     [SerializeField] private Transform targetPot;
 
     private Transform currentPot;
@@ -33,15 +37,46 @@ public class MiniHelper : Agent
         //Helper's position
         sensor.AddObservation(transform.localPosition);
 
-        if (hasSeed==false)
+        if (potList != null && potList.list.Count > 0)
         {
-            Vector3 dirToSeedBox = (seedBox.transform.localPosition - transform.localPosition).normalized;
-            sensor.AddObservation(seedBox.localPosition);
+            // Loop through each pot in the list
+            foreach (Transform pot in potList.list)
+            {
+                PotState potState = pot.GetComponent<PotState>();
+
+                // Add observations for the pot's position
+                sensor.AddObservation(pot.localPosition);
+
+                // Add observations for whether the pot is planted and watered
+                sensor.AddObservation(potState.isPlanted ? 1f : 0f);
+                sensor.AddObservation(potState.isWatered ? 1f : 0f);
+            }
         }
 
-        else if (hasSeed == true)
+        if (potList.allFull==false)
         {
-            sensor.AddObservation(targetPot.localPosition);
+            if (hasSeed == false)
+            {
+                sensor.AddObservation(seedBox.localPosition);
+            }
+
+            else if (hasSeed == true)
+            {
+                sensor.AddObservation(targetPot.localPosition);
+            }
+        }
+
+        else if (potList.allWatered==false)
+        {
+            if (hasWater == false)
+            {
+                sensor.AddObservation(waterBox.localPosition);
+            }
+
+            else if (hasWater == true)
+            {
+                sensor.AddObservation(targetPot.localPosition);
+            }
         }
     }
 
@@ -69,16 +104,37 @@ public class MiniHelper : Agent
             if (hasSeed==false)
             {
                 SetReward(1f);
-                HoldSeed();
+                HoldObject(seedPrefab);
+                hasSeed = true;
+            }
+
+            else if (hasSeed == true)
+            {
+                SetReward(-1f);
+            }
+        }
+
+        else if (other.gameObject.CompareTag("WaterBox"))
+        {
+            if (hasWater == false)
+            {
+                SetReward(1f);
+                HoldObject(waterPrefab);
+                hasWater = true;
+            }
+
+            else if (hasWater == true)
+            {
+                SetReward(-1f);
             }
         }
 
         if (other.gameObject.CompareTag("Pot"))
         {
-
             GameObject potObject = other.gameObject;
             PotState currentPot = potObject.GetComponent<PotState>();
-            if (hasSeed == false || currentPot.isPlanted == true)
+
+            if (hasSeed == false && currentPot.isPlanted == true)
             {
                 SetReward(-1f);
             }
@@ -86,7 +142,17 @@ public class MiniHelper : Agent
             else if (hasSeed == true && currentPot.isPlanted==false)
             {
                 currentPot.isPlanted = true;
-                PlaceSeed(potObject);
+                PlaceObject(potObject, transform.Find("Seed(Clone)"));
+                hasSeed = false;
+                SetReward(1f);
+                potList.PotChange();
+            }
+
+            if (hasWater == true && currentPot.isPlanted == true)
+            {
+                currentPot.isWatered = true;
+                PlaceObject(potObject, transform.Find("WaterDrop(Clone)"));
+                hasWater = false;
                 SetReward(1f);
             }
         }
@@ -98,22 +164,18 @@ public class MiniHelper : Agent
         }
     }
 
-    public void HoldSeed()
+    public void HoldObject(GameObject prefab)
     {
-        Vector3 seedSpawnPosition = transform.position + transform.forward * 1.5f;
-        GameObject heldSeed = Instantiate(seedPrefab, seedSpawnPosition + Vector3.up * 0.5f, Quaternion.identity);
-        heldSeed.transform.parent = transform;
-        hasSeed = true;
+        Vector3 spawnPosition = transform.position + transform.forward * 1.5f;
+        GameObject heldObject = Instantiate(prefab, spawnPosition + Vector3.up * 0.5f, Quaternion.identity);
+        heldObject.transform.parent = transform;
     }
 
-    public void PlaceSeed(GameObject pot)
+    public void PlaceObject(GameObject pot, Transform heldObject)
     {
-        Transform heldSeed = transform.Find("Seed(Clone)");
-        heldSeed.parent = null;
-
-        heldSeed.parent = pot.transform;
-        heldSeed.localPosition = new Vector3(0,1.5f,0);
-        hasSeed = false;
+        //heldObject.parent = null;
+        heldObject.parent = pot.transform;
+        heldObject.localPosition = new Vector3(0, 1.5f, 0);
     }
 
     void FixedUpdate()

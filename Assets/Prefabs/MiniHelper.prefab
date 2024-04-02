@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5066776169952378664}
   - component: {fileID: 6869680467999389454}
   - component: {fileID: 3188904492408944848}
+  - component: {fileID: 8444672383813388394}
   - component: {fileID: 3221306082539872527}
   - component: {fileID: 8001667826161067970}
   - component: {fileID: 5385739258327088467}
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 2035014274587981319}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -52,18 +53,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 6
+    VectorObservationSize: 100
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
-      BranchSizes: 01000000
-    VectorActionSize: 
+      BranchSizes: 
+    VectorActionSize: 02000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 3
-  m_BehaviorType: 0
+  m_BehaviorType: 1
   m_BehaviorName: MiniHelper
   TeamId: 0
   m_UseChildSensors: 1
@@ -84,13 +85,12 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
-  seedPrefab: {fileID: 0}
-  waterPrefab: {fileID: 0}
+  MaxStep: 500
+  seedPrefab: {fileID: 2653978130534624442, guid: 611bd9228d23cf74b853c22737997833, type: 3}
+  waterPrefab: {fileID: 1247669720603009188, guid: 3f70870d2a8f2694f8f8d2f28f70a7fd, type: 3}
   potList: {fileID: 0}
   seedBox: {fileID: 0}
   waterBox: {fileID: 0}
-  targetPot: {fileID: 0}
   hasSeed: 0
   hasWater: 0
 --- !u!114 &3188904492408944848
@@ -107,6 +107,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
+--- !u!114 &8444672383813388394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035014274587981319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Record: 0
+  NumStepsToRecord: 0
+  DemonstrationName: MiniHelperDemo
+  DemonstrationDirectory: Demos
 --- !u!33 &3221306082539872527
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -182,7 +198,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &2584069280775727199
 BoxCollider:

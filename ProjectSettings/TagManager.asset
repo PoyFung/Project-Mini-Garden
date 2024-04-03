@@ -8,6 +8,7 @@ TagManager:
   - Pot
   - SeedBox
   - WaterBox
+  - CropBox
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 
 public class MiniHelper : Agent
 {
+    private Vector3 initialPos;
     public GameObject seedPrefab;
     public GameObject waterPrefab;
 
@@ -19,15 +20,23 @@ public class MiniHelper : Agent
 
     [SerializeField] private Transform seedBox;
     [SerializeField] private Transform waterBox;
+    [SerializeField] private Transform cropBox;
+    [SerializeField] private Transform home;
+
 
     private Transform currentPot;
 
     public bool hasSeed = false;
     public bool hasWater = false;
-
+    public bool hasCrop = false;
+    private void Awake()
+    {
+        initialPos = transform.localPosition;
+    }
     public override void OnEpisodeBegin()
     {
-        transform.localPosition = new Vector3(Random.Range(-3,+3),0,Random.Range(-3,3));
+        transform.localPosition = initialPos;
+        //transform.localPosition = new Vector3(Random.Range(-3,+3),0,Random.Range(-3,3));
         rb = GetComponent<Rigidbody>();
     }
 
@@ -37,7 +46,7 @@ public class MiniHelper : Agent
         //Helper's position
         sensor.AddObservation(transform.localPosition);
 
-        if (potList.allFull == false)
+        if (potList.allSeeded == false)
         {
             if (hasSeed == false)
             {
@@ -51,7 +60,7 @@ public class MiniHelper : Agent
         }
 
 
-        else if (potList.allWatered == false && potList.allFull == true)
+        else if (potList.allWatered == false && potList.allSeeded == true)
         {
             if (hasWater == false)
             {
@@ -61,6 +70,19 @@ public class MiniHelper : Agent
             else if (hasWater == true)
             {
                 sensor.AddObservation(locatePot().localPosition);
+            }
+        }
+
+        else if (potList.allCrop==false && potList.allWatered == true && potList.allSeeded == true)
+        {
+            if (hasCrop == false)
+            {
+                sensor.AddObservation(locatePot().localPosition);
+            }
+
+            else if (hasCrop == true)
+            {
+                sensor.AddObservation(cropBox.localPosition);
             }
         }
     }
@@ -104,6 +126,16 @@ public class MiniHelper : Agent
             }
         }
 
+        else if (other.gameObject.CompareTag("CropBox"))
+        {
+            if (hasCrop)
+            {
+                SetReward(10f);
+                HoldObject(waterPrefab);
+                hasWater = true;
+            }
+        }
+
         if (other.gameObject.CompareTag("Pot"))
         {
             GameObject potObject = other.gameObject;
@@ -118,12 +150,24 @@ public class MiniHelper : Agent
                 potList.PotChange();
             }
 
-            if (hasWater == true && currentPot.isPlanted == true) //Planting the Water
+            if (hasWater == true && currentPot.isPlanted == true && currentPot.isWatered == false) //Planting the Water
             {
                 currentPot.isWatered = true;
                 PlaceObject(potObject, transform.Find("WaterDrop(Clone)"));
                 hasWater = false;
                 SetReward(10f);
+                potList.PotChange();
+            }
+
+            if (currentPot.hasCrop==true)
+            {
+                HoldObject(currentPot.finalPotato);
+                currentPot.finalPotato.SetActive(false);
+                currentPot.hasCrop= false;
+                currentPot.isPlanted= false;
+                currentPot.isWatered= false;
+                SetReward(10f);
+                potList.PotChange();
             }
         }
 
@@ -143,9 +187,8 @@ public class MiniHelper : Agent
 
     public void PlaceObject(GameObject pot, Transform heldObject)
     {
-        //heldObject.parent = null;
         heldObject.parent = pot.transform;
-        heldObject.localPosition = new Vector3(0, 1.5f, 0);
+        heldObject.localPosition = new Vector3(0, 0.5f, 0);
     }
 
     void FixedUpdate()
@@ -165,16 +208,17 @@ public class MiniHelper : Agent
 
     public Transform locatePot()
     {
-        for (int i = 0; potList; i++)
+        for (int i = 0; i<potList.list.Count; i++)
         {
             Transform currenPot = potList.list[i];
             PotState potState = currenPot.GetComponent<PotState>();
 
-            if (potState.isPlanted == false && hasSeed == true || potState.isWatered == false && hasWater == true)
+            if (potState.isPlanted == false && hasSeed == true || potState.isWatered == false && hasWater == true
+                || potState.isWatered == true && potState.hasCrop==true)
             {
                 return currenPot;
             }
         }
-        return null;
+        return home;
     }
 }

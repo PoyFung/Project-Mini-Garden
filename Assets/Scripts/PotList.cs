@@ -7,8 +7,9 @@ using UnityEngine;
 public class PotList : MonoBehaviour
 {
     public List<Transform> list;
-    public bool allFull = false;
+    public bool allSeeded = false;
     public bool allWatered = false;
+    public bool allCrop = false;
 
     private bool listChange = false;
 
@@ -35,7 +36,10 @@ public class PotList : MonoBehaviour
     public void CheckPots()
     {
         float size = list.Count;
-        float counter = 0;
+        float counterSeed = 0;
+        float counterWater = 0;
+        float counterCrop = 0;
+
         for (int i = 0; i < transform.childCount; i++)
         {
             Transform child = transform.GetChild(i);
@@ -43,12 +47,32 @@ public class PotList : MonoBehaviour
 
             if (potState.isPlanted == true)
             {
-                counter++;
+                counterSeed++;
+            }
+
+            if (potState.isWatered == true)
+            {
+                counterWater++;
+            }
+
+            if (potState.hasCrop == true)
+            {
+                counterCrop++;
             }
         }
-        if (counter == size)
+        if (counterSeed == size)
         {
-            allFull = true;
+            allSeeded = true;
+        }
+
+        if (counterWater == size)
+        {
+            allWatered = true;
+        }
+
+        if (counterCrop == size)
+        {
+            allCrop = true;
         }
     }
 

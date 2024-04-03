@@ -6,13 +6,16 @@ using UnityEngine;
 
 public class PotList : MonoBehaviour
 {
-    public List<Transform> list;
-    public bool allSeeded = false;
-    public bool allWatered = false;
-    public bool allCrop = false;
+    public static List<Transform> list;
+    public static bool seedsExist = false;
+    public static bool emptyExist = false;
+
+    public static bool allSeeded = false;
+    public static bool allWatered = false;
+    public static bool allCrop = false;
     public static bool cropsGrowing = false;
 
-    private bool listChange = false;
+    private static bool listChange = false;
 
     private void Awake()
     {
@@ -49,6 +52,7 @@ public class PotList : MonoBehaviour
             if (potState.isPlanted == true)
             {
                 counterSeed++;
+                seedsExist = true;
             }
 
             if (potState.isWatered == true)
@@ -60,24 +64,37 @@ public class PotList : MonoBehaviour
             {
                 counterCrop++;
             }
+
+            if (counterSeed == 0 && counterWater == 0)
+            {
+                emptyExist = true;
+            }
         }
         if (counterSeed == size)
         {
             allSeeded = true;
+            emptyExist = false;
+        }
+
+        else if (counterSeed == 0)
+        {
+            seedsExist=false;
         }
 
         if (counterWater == size)
         {
             allWatered = true;
+            emptyExist = false;
         }
 
         if (counterCrop == size)
         {
             allCrop = true;
+            emptyExist = false;
         }
     }
 
-    public void PotChange()
+    public static void PotChange()
     {
         listChange = true;
     }

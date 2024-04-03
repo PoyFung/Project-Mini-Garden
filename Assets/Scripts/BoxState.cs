@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BoxState : MonoBehaviour
 {
-    public PotList potList;
     public GameObject seedbox;
     public GameObject waterBox;
     public GameObject cropBox;
@@ -21,12 +20,12 @@ public class BoxState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (potList.allSeeded == false)
+        if (PotList.allSeeded == false || PotList.seedsExist == false)
         {
             seedbox.SetActive(true);
         }
 
-        else if (potList.allSeeded == true && potList.allWatered == false)
+        else if (PotList.allSeeded == true && PotList.allWatered == false)
         {
             seedbox.SetActive(false);
             waterBox.SetActive(true);

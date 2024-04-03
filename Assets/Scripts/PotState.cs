@@ -17,7 +17,7 @@ public class PotState : MonoBehaviour
 
     private void Update()
     {
-        if (isPlanted && isWatered)
+        if (isPlanted && isWatered || isGrowing==true)
         {
             timer.Start();
             Transform seed = transform.Find("Seed(Clone)");
@@ -64,8 +64,12 @@ public class PotState : MonoBehaviour
                 isWatered = false;
                 hasCrop = true;
                 finalPotato = p4;
+                PotList.PotChange();
                 timer.Reset();
             }
+            isPlanted=false;
+            isWatered=false;
+
         }
     }
 }

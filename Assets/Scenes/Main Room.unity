@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -138,10 +138,10 @@ PrefabInstance:
     - target: {fileID: 5066776169952378664, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 3583712a797c92144874ab80196c6ed9, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5066776169952378664, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_BehaviorType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385739258327088467, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_Constraints
@@ -470,10 +470,10 @@ PrefabInstance:
     - target: {fileID: 5066776169952378664, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 3583712a797c92144874ab80196c6ed9, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5066776169952378664, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_BehaviorType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385739258327088467, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_Constraints
@@ -722,10 +722,10 @@ PrefabInstance:
     - target: {fileID: 5066776169952378664, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 3583712a797c92144874ab80196c6ed9, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5066776169952378664, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_BehaviorType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385739258327088467, guid: 0cc11b475edd53b4d9df398580ec5a50, type: 3}
       propertyPath: m_Constraints
@@ -1389,10 +1389,10 @@ PrefabInstance:
     - target: {fileID: 633351909346261842, guid: 761546ea54003da40b6327b46ee78b31, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 3583712a797c92144874ab80196c6ed9, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 633351909346261842, guid: 761546ea54003da40b6327b46ee78b31, type: 3}
       propertyPath: m_BehaviorType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 633351909346261842, guid: 761546ea54003da40b6327b46ee78b31, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize

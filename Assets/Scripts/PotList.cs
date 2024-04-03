@@ -10,6 +10,7 @@ public class PotList : MonoBehaviour
     public bool allSeeded = false;
     public bool allWatered = false;
     public bool allCrop = false;
+    public static bool cropsGrowing = false;
 
     private bool listChange = false;
 

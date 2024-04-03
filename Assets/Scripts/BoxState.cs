@@ -8,6 +8,8 @@ public class BoxState : MonoBehaviour
     public GameObject seedbox;
     public GameObject waterBox;
     public GameObject cropBox;
+
+    public static float cropsCollected = 0;
     
     void Start()
     {
@@ -30,10 +32,8 @@ public class BoxState : MonoBehaviour
             waterBox.SetActive(true);
         }
 
-        else if (potList.allSeeded == true && potList.allWatered == true)
+        if (PotList.cropsGrowing == true)
         {
-            seedbox.SetActive(false);
-            waterBox.SetActive(false);
             cropBox.SetActive(true);
         }
     }

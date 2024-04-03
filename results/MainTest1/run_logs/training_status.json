@@ -1,0 +1,29 @@
+{
+    "MiniHelper": {
+        "checkpoints": [
+            {
+                "steps": 61514,
+                "file_path": "results\\MainTest1\\MiniHelper\\MiniHelper-61514.onnx",
+                "reward": null,
+                "creation_time": 1712123285.5569615,
+                "auxillary_file_paths": [
+                    "results\\MainTest1\\MiniHelper\\MiniHelper-61514.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 61514,
+            "file_path": "results\\MainTest1\\MiniHelper.onnx",
+            "reward": null,
+            "creation_time": 1712123285.5569615,
+            "auxillary_file_paths": [
+                "results\\MainTest1\\MiniHelper\\MiniHelper-61514.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "2.2.2+cpu"
+    }
+}

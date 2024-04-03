@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 414311150721231929}
   - component: {fileID: 6284865160498858283}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,9 +69,9 @@ GameObject:
   - component: {fileID: 3221306082539872527}
   - component: {fileID: 8001667826161067970}
   - component: {fileID: 5385739258327088467}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiniHelper
-  m_TagString: Untagged
+  m_TagString: MiniHelper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,14 +137,18 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 500
+  MaxStep: 10000
   seedPrefab: {fileID: 2653978130534624442, guid: 611bd9228d23cf74b853c22737997833, type: 3}
   waterPrefab: {fileID: 1247669720603009188, guid: 3f70870d2a8f2694f8f8d2f28f70a7fd, type: 3}
+  rb: {fileID: 5385739258327088467}
   potList: {fileID: 0}
   seedBox: {fileID: 0}
   waterBox: {fileID: 0}
+  cropBox: {fileID: 0}
+  home: {fileID: 0}
   hasSeed: 0
   hasWater: 0
+  hasCrop: 0
 --- !u!114 &3188904492408944848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,5 +254,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0

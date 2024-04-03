@@ -15,7 +15,7 @@ public class MiniHelper : Agent
     public GameObject seedPrefab;
     public GameObject waterPrefab;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     public PotList potList;
 
     [SerializeField] private Transform seedBox;
@@ -108,7 +108,7 @@ public class MiniHelper : Agent
     {
         if (other.gameObject.CompareTag("SeedBox"))
         {
-            if (hasSeed == false && hasWater == false)
+            if (hasSeed == false && hasWater == false && hasCrop == false)
             {
                 SetReward(1f);
                 HoldObject(seedPrefab);
@@ -118,7 +118,7 @@ public class MiniHelper : Agent
 
         else if (other.gameObject.CompareTag("WaterBox"))
         {
-            if (hasWater == false && hasSeed == false)
+            if (hasWater == false && hasSeed == false && hasCrop == false)
             {
                 SetReward(1f);
                 HoldObject(waterPrefab);
@@ -131,8 +131,10 @@ public class MiniHelper : Agent
             if (hasCrop)
             {
                 SetReward(10f);
-                HoldObject(waterPrefab);
-                hasWater = true;
+                Transform potato = transform.Find("potato4(Clone)");
+                Destroy(potato.gameObject);
+                BoxState.cropsCollected++;
+                hasCrop = false;
             }
         }
 
@@ -155,17 +157,22 @@ public class MiniHelper : Agent
                 currentPot.isWatered = true;
                 PlaceObject(potObject, transform.Find("WaterDrop(Clone)"));
                 hasWater = false;
+                PotList.cropsGrowing = true;
                 SetReward(10f);
                 potList.PotChange();
             }
 
-            if (currentPot.hasCrop==true)
+            if (currentPot.hasCrop==true && hasSeed==false && hasWater==false)
             {
                 HoldObject(currentPot.finalPotato);
+                potList.allSeeded = false;
+                potList.allWatered = false;
+                potList.allCrop = false;
+                hasCrop = true;
                 currentPot.finalPotato.SetActive(false);
-                currentPot.hasCrop= false;
-                currentPot.isPlanted= false;
-                currentPot.isWatered= false;
+                currentPot.hasCrop = false;
+                currentPot.isPlanted = false;
+                currentPot.isWatered = false;
                 SetReward(10f);
                 potList.PotChange();
             }

@@ -15,6 +15,6 @@ public class GUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        cropsCollected.text = "Crops: " + BoxState.cropsCollected;
     }
 }

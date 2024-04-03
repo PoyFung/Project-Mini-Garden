@@ -410,6 +410,7 @@ MonoBehaviour:
   potList: {fileID: 3301419868879384457}
   seedbox: {fileID: 1990132685374819313}
   waterBox: {fileID: 2599939327467261568}
+  cropBox: {fileID: 0}
 --- !u!1 &6252027488564496984
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +437,7 @@ Transform:
   m_GameObject: {fileID: 6252027488564496984}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5094981, y: -1.6031628, z: 2.9023767}
+  m_LocalPosition: {x: 1.5094981, y: -1.3531628, z: -0.59762335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -458,8 +459,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   list: []
-  allFull: 0
+  allSeeded: 0
   allWatered: 0
+  allCrop: 0
 --- !u!1 &6441008111359338081
 GameObject:
   m_ObjectHideFlags: 0
